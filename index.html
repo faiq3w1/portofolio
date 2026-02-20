@@ -7,7 +7,19 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
-
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/build/index.min.js"></script>
+<script>
+  (function(){
+    emailjs.init({
+      publicKey: "U6lnajBCdvYHiZCVn", // Ganti dengan public key Anda
+      limitRate: {
+        id: 'rate_limit',
+        throttle: 10000, // milliseconds
+      },
+    });
+    console.log("EmailJS initialized successfully");
+  })();
+</script>
 <style>
 /* ========== VARIABLES ========== */
 :root {
@@ -1280,47 +1292,43 @@ footer p {
     </section>
 
     <script>
-    function sendEmail(event) {
-      event.preventDefault();
-      
-      const nama = document.getElementById('nama').value;
-      const email = document.getElementById('email').value;
-      const subj = document.getElementById('subj').value;
-      const pesan = document.getElementById('pesan').value;
-      
-      if (!nama || !email || !subj || !pesan) {
-        alert('Mohon isi semua field!');
-        return;
-      }
-      
-      // Menggunakan EmailJS (daftar di https://www.emailjs.com/)
-      emailjs.send('service_id', 'template_id', {
-        to_email: 'ahmadfaiqsyahputra9@gmail.com',
-        from_name: nama,
-        from_email: email,
-        subject: subj,
-        message: pesan
-      }).then(() => {
-        alert('Pesan berhasil terkirim!');
-        document.getElementById('nama').value = '';
-        document.getElementById('email').value = '';
-        document.getElementById('subj').value = '';
-        document.getElementById('pesan').value = '';
-      }).catch(err => {
-        alert('Gagal mengirim pesan: ' + err.text);
-      });
-    }
-    </script>
-
-    <!-- Tambahkan script EmailJS di bagian <head> -->
-    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/index.min.js"></script>
-    <script type="text/javascript">
-      emailjs.init('YOUR_PUBLIC_KEY');
-    </script> -->
-      </div>
-    </div>
-  </div>
-</section>
+function sendEmail(event) {
+  event.preventDefault();
+  
+  const nama = document.getElementById('nama').value;
+  const email = document.getElementById('email').value;
+  const subj = document.getElementById('subj').value;
+  const pesan = document.getElementById('pesan').value;
+  
+  if (!nama || !email || !subj || !pesan) {
+    alert('Mohon isi semua field!');
+    return;
+  }
+  
+  // Debug log
+  console.log('Sending email...');
+  console.log('Nama:', nama);
+  console.log('Email:', email);
+  
+  emailjs.send('service_jwspp2q', 'template_xj3z57l', {
+    to_email: email,
+    from_name: nama,
+    from_email: email,
+    subject: subj,
+    message: pesan
+  }).then(function(response) {
+    console.log('SUCCESS', response.status, response.text);
+    alert('Pesan berhasil terkirim!');
+    document.getElementById('nama').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('subj').value = '';
+    document.getElementById('pesan').value = '';
+  }, function(error) {
+    console.log('FAILED', error);
+    alert('Gagal mengirim pesan: ' + JSON.stringify(error));
+  });
+}
+</script>
 
 <!-- ========== FOOTER ========== -->
 <footer>
